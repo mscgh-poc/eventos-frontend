@@ -1,7 +1,3 @@
-// ============================================================
-// DATOS DE PRUEBA — Eventos Académicos Mayo 2026
-// ============================================================
-
 export const CATEGORIES = [
   'Tecnología',
   'Ciencias',
@@ -9,10 +5,9 @@ export const CATEGORIES = [
   'Humanidades',
   'Salud',
   'Arte y Cultura',
-]
+];
 
-// Usuarios de prueba: cualquier email @unmsm.edu.pe + contraseña mínima 6 chars
-export const DEMO_DOMAIN = '@unmsm.edu.pe'
+export const DEMO_DOMAIN = '@unmsm.edu.pe';
 
 export const mockEvents = [
   // ── EVENTOS PASADOS ──────────────────────────────────────
@@ -21,7 +16,7 @@ export const mockEvents = [
     title: 'Introducción a la Inteligencia Artificial',
     description:
       'Explora los fundamentos de la IA y su impacto en la industria moderna. Aprende sobre machine learning, redes neuronales y sus aplicaciones prácticas en el mundo empresarial.',
-    date: '2026-10-03',
+    date: '2026-10-15',
     time: '10:00',
     speaker: 'Dr. Carlos Mendoza',
     speakerBio: 'Doctor en Ciencias de la Computación, MIT. 15 años en investigación de IA.',
@@ -44,7 +39,7 @@ export const mockEvents = [
     title: 'Emprendimiento en la Era Digital',
     description:
       'Descubre cómo crear y escalar startups tecnológicas en el ecosistema peruano. Metodologías ágiles, financiamiento y casos de éxito reales de fundadores locales.',
-    date: '2026-10-08',
+    date: '2026-10-20',
     time: '15:00',
     speaker: 'Mg. Ana Torres',
     speakerBio: 'MBA Wharton. Fundadora de 3 startups. Mentora en Wayra Perú.',
@@ -66,7 +61,7 @@ export const mockEvents = [
     title: 'Bienestar Mental en la Vida Universitaria',
     description:
       'Taller vivencial sobre técnicas de manejo del estrés, ansiedad académica y hábitos saludables. Aprende herramientas prácticas para equilibrar rendimiento y bienestar.',
-    date: '2026-05-10',
+    date: '2026-10-25',
     time: '09:00',
     speaker: 'Psic. Laura Quispe',
     speakerBio: 'Psicóloga clínica especializada en salud mental universitaria. PUCP.',
@@ -79,13 +74,13 @@ export const mockEvents = [
     agenda: null,
   },
 
-  // ── EVENTOS PRÓXIMOS ─────────────────────────────────────
+  // ── EVENTOS PRÓXIMOS (NOVIEMBRE 2026) ─────────────────────
   {
     id: 4,
     title: 'Workshop: Desarrollo Web Fullstack',
     description:
       'Taller intensivo de dos días donde construirás una aplicación web completa con React en el frontend y Node.js/Express en el backend. Incluye deploy en la nube.',
-    date: '2026-10-17',
+    date: '2026-11-05',
     time: '08:00',
     speaker: 'Ing. Roberto Silva',
     speakerBio: 'Senior Full-Stack Engineer en Mercado Libre. Instructor certificado.',
@@ -96,12 +91,12 @@ export const mockEvents = [
     enrolled: 22,
     location: 'Lab de Cómputo 3 — Pabellón F',
     agenda: [
-      { session: 'Día 1 · 17 May', time: '08:00', topic: 'Fundamentos de React: componentes y hooks' },
-      { session: 'Día 1 · 17 May', time: '10:00', topic: 'Gestión de estado con Context API y Zustand' },
-      { session: 'Día 1 · 17 May', time: '13:00', topic: 'Introducción a Node.js y Express REST' },
-      { session: 'Día 2 · 18 May', time: '08:00', topic: 'Bases de datos: PostgreSQL + Prisma ORM' },
-      { session: 'Día 2 · 18 May', time: '11:00', topic: 'Conexión frontend-backend y autenticación JWT' },
-      { session: 'Día 2 · 18 May', time: '14:00', topic: 'Deploy en Railway y presentaciones finales' },
+      { session: 'Día 1 · 5 Nov', time: '08:00', topic: 'Fundamentos de React: componentes y hooks' },
+      { session: 'Día 1 · 5 Nov', time: '10:00', topic: 'Gestión de estado con Context API y Zustand' },
+      { session: 'Día 1 · 5 Nov', time: '13:00', topic: 'Introducción a Node.js y Express REST' },
+      { session: 'Día 2 · 6 Nov', time: '08:00', topic: 'Bases de datos: PostgreSQL + Prisma ORM' },
+      { session: 'Día 2 · 6 Nov', time: '11:00', topic: 'Conexión frontend-backend y autenticación JWT' },
+      { session: 'Día 2 · 6 Nov', time: '14:00', topic: 'Deploy en Azure y presentaciones finales' },
     ],
   },
   {
@@ -109,7 +104,7 @@ export const mockEvents = [
     title: 'Charla: Oportunidades Laborales en Tech',
     description:
       'Representantes de las principales empresas tecnológicas del país comparten sobre los perfiles más demandados, rangos salariales y cómo prepararte para el mercado laboral.',
-    date: '2026-05-20',
+    date: '2026-11-10',
     time: '18:00',
     speaker: 'Panel: Google, BCP Digital, Interbank Tech',
     speakerBio: 'Líderes de reclutamiento técnico de las empresas más innovadoras del país.',
@@ -131,7 +126,7 @@ export const mockEvents = [
     title: 'Taller de Fotografía Artística',
     description:
       'Aprende las técnicas esenciales de composición, iluminación y edición fotográfica. El taller es práctico: trae tu cámara DSLR o simplemente tu smartphone.',
-    date: '2026-10-22',
+    date: '2026-11-15',
     time: '14:00',
     speaker: 'Lic. Patricia Vega',
     speakerBio: 'Fotógrafa profesional, ganadora de concursos nacionales de fotografía documental.',
@@ -148,7 +143,7 @@ export const mockEvents = [
     title: 'Ciberseguridad: Protege tu Identidad Digital',
     description:
       'Conoce las principales amenazas de seguridad en internet —phishing, ransomware, ingeniería social— y aprende las mejores prácticas para proteger tus datos y cuentas.',
-    date: '2026-10-25',
+    date: '2026-11-20',
     time: '19:00',
     speaker: 'Ing. Miguel Castillo',
     speakerBio: 'Ethical Hacker certificado (CEH, OSCP). Consultor de seguridad en banca digital.',
@@ -170,7 +165,7 @@ export const mockEvents = [
     title: 'Seminario de Investigación Científica',
     description:
       'Metodología de investigación, cómo publicar en revistas Scopus e ISI, y cómo acceder a fondos y becas para proyectos de investigación universitaria en Perú.',
-    date: '2026-10-28',
+    date: '2026-11-25',
     time: '09:00',
     speaker: 'Dr. Fernando Rojas',
     speakerBio: 'PhD en Física, CONCYTEC. Autor de más de 40 publicaciones indexadas.',
@@ -192,7 +187,7 @@ export const mockEvents = [
     title: 'Arte Latinoamericano: Del Muralismo a lo Digital',
     description:
       'Un recorrido apasionante por los movimientos artísticos más influyentes de Latinoamérica, desde el muralismo mexicano hasta el arte digital contemporáneo.',
-    date: '2026-05-30',
+    date: '2026-11-28',
     time: '16:00',
     speaker: 'Dra. Carmen Flores',
     speakerBio: 'Doctora en Historia del Arte, UNAM. Curadora del Museo de Arte Contemporáneo de Lima.',
@@ -204,4 +199,4 @@ export const mockEvents = [
     location: 'Galería de Arte — Edificio Central',
     agenda: null,
   },
-]
+];
