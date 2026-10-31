@@ -1,11 +1,17 @@
+import { useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { formatDate, formatTime, getDayName, isPastEvent } from '../utils/dateUtils'
+import { BASE_URL } from '../services/api'
 
 function EventDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { isInscribed, inscribe, cancelInscription, events } = useApp()
+  const { isInscribed, inscribe, cancelInscription, events, student, refreshEvents } = useApp()
+
+  const [rating, setRating] = useState(5)
+  const [comment, setComment] = useState('')
+  const [submittingReview, setSubmittingReview] = useState(false)
 
   const event = (events || []).find((e) => e.id === Number(id))
 
@@ -33,6 +39,30 @@ function EventDetail() {
   const handleInscribe = () => inscribe(event.id)
   const handleCancel = () => {
     cancelInscription(event.id)
+  }
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault()
+    setSubmittingReview(true)
+    try {
+      const res = await fetch(`${BASE_URL}/api/eventos/${event.id}/resenas`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          rating,
+          comment,
+          author: student?.name || 'Estudiante UNMSM',
+        }),
+      })
+      if (res.ok) {
+        setComment('')
+        if (refreshEvents) refreshEvents()
+      }
+    } catch (err) {
+      console.error('Error al enviar reseña:', err)
+    } finally {
+      setSubmittingReview(false)
+    }
   }
 
   return (
@@ -91,6 +121,55 @@ function EventDetail() {
               </ol>
             </section>
           )}
+
+          {/* Sección de Reseñas y Calificaciones (Feature v2.0.0 MAJOR) */}
+          <section className="detail-agenda" style={{ marginTop: '2rem' }}>
+            <h3 className="detail-section-title">
+              ⭐ Calificaciones y Reseñas
+              {event.averageRating ? ` (${event.averageRating} / 5 · ${event.reviewsCount || event.reviews?.length} opiniones)` : ''}
+            </h3>
+
+            {/* Formulario para calificar */}
+            <form onSubmit={handleReviewSubmit} style={{ marginBottom: '1.5rem', background: '#f8fafc', padding: '1rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <label><strong>Tu Calificación:</strong></label>
+                <select value={rating} onChange={(e) => setRating(Number(e.target.value))} style={{ padding: '4px 8px', borderRadius: '4px' }}>
+                  <option value={5}>⭐⭐⭐⭐⭐ (5 - Excelente)</option>
+                  <option value={4}>⭐⭐⭐⭐ (4 - Muy bueno)</option>
+                  <option value={3}>⭐⭐⭐ (3 - Regular)</option>
+                  <option value={2}>⭐⭐ (2 - Mejorable)</option>
+                  <option value={1}>⭐ (1 - Malo)</option>
+                </select>
+              </div>
+              <textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Escribe tu opinión académica sobre este evento o taller..."
+                rows={2}
+                style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+              />
+              <button type="submit" disabled={submittingReview} className="btn btn--primary btn--sm" style={{ marginTop: '0.5rem' }}>
+                {submittingReview ? 'Publicando...' : 'Publicar Reseña'}
+              </button>
+            </form>
+
+            {/* Listado de reseñas */}
+            {event.reviews && event.reviews.length > 0 ? (
+              <ul style={{ listStyle: 'none', padding: 0 }}>
+                {event.reviews.map((r) => (
+                  <li key={r.id} style={{ borderBottom: '1px solid #e2e8f0', padding: '0.75rem 0' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <strong>{r.author}</strong>
+                      <span style={{ fontSize: '0.9rem' }}>{'⭐'.repeat(r.rating)}</span>
+                    </div>
+                    <p style={{ margin: '0.25rem 0 0', color: '#475569' }}>{r.comment}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p style={{ color: '#64748b' }}>Aún no hay reseñas registradas para este evento. ¡Sé el primero en calificarlo!</p>
+            )}
+          </section>
 
         </article>
 
