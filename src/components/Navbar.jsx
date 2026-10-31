@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
 function Navbar() {
-  const { student, clearStudent, inscriptions, openModal } = useApp()
+  const { student, clearStudent, inscriptions, openModal, backendStatus, backendVersion } = useApp()
 
   return (
     <header className="navbar">
@@ -13,6 +13,15 @@ function Navbar() {
           <span className="navbar__brand-icon" aria-hidden="true">🎓</span>
           <span className="navbar__brand-text">Eventos<strong>FISI</strong></span>
         </Link>
+
+        {/* Estado de conexión con el Backend en la nube */}
+        <span
+          className={`badge ${backendStatus === 'UP' ? 'badge--success' : 'badge--danger'}`}
+          style={{ fontSize: '0.72rem', padding: '2px 8px', alignSelf: 'center', marginLeft: '8px' }}
+          title={`Estado de la API Backend en Azure: ${backendStatus}`}
+        >
+          {backendStatus === 'UP' ? `🟢 Backend v${backendVersion || '1.0.0'}` : '🔴 Offline'}
+        </span>
 
         {/* Navegación principal */}
         <nav className="navbar__nav" aria-label="Navegación principal">

@@ -1,20 +1,19 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
-import { mockEvents } from '../data/mockData'
 import EventCard from '../components/EventCard'
 import { isPastEvent } from '../utils/dateUtils'
 
 function MyEvents() {
-  const { student, openModal, inscriptions } = useApp()
+  const { student, openModal, inscriptions, events } = useApp()
   const [activeTab, setActiveTab] = useState('upcoming') // 'upcoming' | 'past'
 
   // Obtiene solo los eventos en que el alumno está inscrito
-  const myEvents = mockEvents.filter((e) => inscriptions.includes(e.id))
+  const myEvents = (events || []).filter((e) => inscriptions.includes(e.id))
 
   const upcoming = myEvents.filter((e) => !isPastEvent(e.date))
-  const past     = myEvents.filter((e) => isPastEvent(e.date))
-  const shown    = activeTab === 'upcoming' ? upcoming : past
+  const past = myEvents.filter((e) => isPastEvent(e.date))
+  const shown = activeTab === 'upcoming' ? upcoming : past
 
   return (
     <div className="page">
@@ -61,51 +60,49 @@ function MyEvents() {
         </button>
       </div>
 
-      {/* Lista de eventos */}
-      {inscriptions.length === 0 ? (
-        <div className="empty-state">
-          <span className="empty-state__icon" aria-hidden="true">📭</span>
-          <h3>Aún no estás inscrito en ningún evento</h3>
-          {!student && (
-            <p>
-              Empieza por{' '}
-              <button
-                onClick={() => openModal(null)}
-                className="link-btn"
-              >
-                identificarte
-              </button>{' '}
-              y luego explora los eventos del mes.
-            </p>
-          )}
-          <Link to="/" className="btn btn--primary">Explorar Eventos</Link>
-        </div>
-      ) : shown.length === 0 ? (
+      {/* Contenido según tab */}
+      {shown.length === 0 ? (
         <div className="empty-state">
           <span className="empty-state__icon" aria-hidden="true">
-            {activeTab === 'upcoming' ? '📆' : '📚'}
+            {activeTab === 'upcoming' ? '🎟️' : '📜'}
           </span>
           <h3>
             {activeTab === 'upcoming'
-              ? 'No tienes eventos próximos'
-              : 'Aún no has asistido a ningún evento'}
+              ? 'No tienes inscripciones próximas'
+              : 'No has asistido a ningún evento todavía'}
           </h3>
+          <p>
+            {activeTab === 'upcoming'
+              ? 'Explora el catálogo de eventos del mes y regístrate en los que te interesen.'
+              : 'Los eventos pasados en los que participaste aparecerán aquí.'}
+          </p>
           {activeTab === 'upcoming' && (
-            <>
-              <p>Inscríbete en los eventos que están por realizarse.</p>
-              <Link to="/" className="btn btn--primary">Ver eventos próximos</Link>
-            </>
+            <Link to="/" className="btn btn--primary">
+              Ver eventos disponibles
+            </Link>
           )}
         </div>
       ) : (
-        <div className="events-grid">
+        <div className="event-grid">
           {shown.map((event) => (
-            <EventCard
-              key={event.id}
-              event={event}
-              showCancelBtn={activeTab === 'upcoming'}
-            />
+            <EventCard key={event.id} event={event} />
           ))}
+        </div>
+      )}
+
+      {/* Recordatorio de identificación si aún no se registró */}
+      {!student && inscriptions.length > 0 && (
+        <div className="banner banner--info mt-8">
+          <div>
+            <strong>Identificación pendiente</strong>
+            <p>
+              Tus inscripciones se guardan en este dispositivo. Identifícate para
+              asegurar tu cupo oficial con tus datos de estudiante.
+            </p>
+          </div>
+          <button onClick={() => openModal()} className="btn btn--secondary btn--sm">
+            Completar datos
+          </button>
         </div>
       )}
 

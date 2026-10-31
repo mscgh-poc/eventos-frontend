@@ -1,9 +1,11 @@
 import { useState, useMemo } from 'react'
-import { mockEvents, CATEGORIES } from '../data/mockData'
+import { CATEGORIES } from '../data/mockData'
+import { useApp } from '../context/AppContext'
 
 // Hook que encapsula la lógica de filtrado de eventos.
 // Devuelve los eventos filtrados y los controles de filtro.
 export function useEventFilter() {
+  const { events } = useApp()
   const today = new Date().toISOString().split('T')[0]
 
   const [filters, setFilters] = useState({
@@ -14,7 +16,8 @@ export function useEventFilter() {
   })
 
   const filteredEvents = useMemo(() => {
-    return mockEvents.filter((event) => {
+    const list = events || []
+    return list.filter((event) => {
       const isUpcoming = event.date >= today
 
       if (filters.status === 'upcoming' && !isUpcoming) return false
@@ -33,7 +36,7 @@ export function useEventFilter() {
 
       return true
     })
-  }, [filters, today])
+  }, [events, filters, today])
 
   const setFilter = (key, value) =>
     setFilters((prev) => ({ ...prev, [key]: value }))

@@ -1,14 +1,13 @@
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
-import { mockEvents } from '../data/mockData'
 import { formatDate, formatTime, getDayName, isPastEvent } from '../utils/dateUtils'
 
 function EventDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { isInscribed, inscribe, cancelInscription } = useApp()
+  const { isInscribed, inscribe, cancelInscription, events } = useApp()
 
-  const event = mockEvents.find((e) => e.id === Number(id))
+  const event = (events || []).find((e) => e.id === Number(id))
 
   // Evento no encontrado
   if (!event) {
@@ -24,15 +23,15 @@ function EventDetail() {
     )
   }
 
-  const past        = isPastEvent(event.date)
-  const inscribed   = isInscribed(event.id)
-  const totalEnrolled = event.enrolled + (inscribed ? 1 : 0)
-  const isFull      = totalEnrolled >= event.capacity
-  const spotsLeft   = event.capacity - totalEnrolled
+  const past = isPastEvent(event.date)
+  const inscribed = isInscribed(event.id)
+  const totalEnrolled = event.enrolled
+  const isFull = totalEnrolled >= event.capacity
+  const spotsLeft = Math.max(0, event.capacity - totalEnrolled)
   const fillPercent = Math.min((totalEnrolled / event.capacity) * 100, 100)
 
   const handleInscribe = () => inscribe(event.id)
-  const handleCancel   = () => {
+  const handleCancel = () => {
     cancelInscription(event.id)
   }
 
